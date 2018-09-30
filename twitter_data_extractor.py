@@ -47,7 +47,6 @@ else:
 twitter_url = "https://twitter.com/xxx/status/"
 tweet_hits = 0
 while source_index < len(source_csv):
-    source_index += 1
     # DELAY TO PREVENT IP BLACKLISTING
     time.sleep(1)
 
@@ -55,8 +54,13 @@ while source_index < len(source_csv):
     classification = source_csv[source_index][1]
 
     # GET WEBPAGE AND PARSE TITLE AND TIMESTAMP
-    response = requests.get(twitter_url+tweet_id)
+    try:
+        response = requests.get(twitter_url+tweet_id)
+    except:
+        continue
     if response.status_code != 200:
+        print("*** TWEET NOT FOUND = " + tweet_id + " ***")
+        source_index += 1
         continue
     soup = BeautifulSoup(response.text, 'lxml')
     title = soup.find("title").text
@@ -66,6 +70,8 @@ while source_index < len(source_csv):
     p = re.compile(r'(.*) on Twitter: "(.*)"')
     p = p.match(title)
     if not p:
+        print("*** TWEET NOT FOUND = " + tweet_id + " ***")
+        source_index += 1
         continue
     username = p.group(1)
     tweet = p.group(2)
@@ -80,6 +86,7 @@ while source_index < len(source_csv):
     target_csv.writerow(obj)
     target_file.flush()
 
+    source_index += 1
     tweet_hits += 1
     print("tweet_hits = {}".format(tweet_hits))
 
