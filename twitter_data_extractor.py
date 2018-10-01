@@ -9,6 +9,7 @@ import requests
 import string
 import time
 
+# CHANGE ONLY SOURCE FILE NAME
 SOURCEFILE = 'cell-ids.txt'
 
 SOURCEPATH = 'Data/' + SOURCEFILE
@@ -19,7 +20,7 @@ FIELDS = ['tweet_id', 'username', 'timestamp', 'tweet', 'classification']
 source_file = open(SOURCEPATH, 'r', newline='', encoding='utf-8')
 source_csv = csv.reader(source_file, delimiter='\t')
 source_csv = list(source_csv)
-source_index = -1
+source_index = 0
 source_file.close()
 target_file = open(TARGETPATH, 'a', newline='', encoding='utf-8')
 
