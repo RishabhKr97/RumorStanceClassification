@@ -3,8 +3,10 @@
 from bs4 import BeautifulSoup
 import csv
 import os
+import random
 import re
 import requests
+import string
 import time
 
 SOURCEFILE = 'cell-ids.txt'
@@ -37,40 +39,47 @@ else:
     # UPDATE SOURCE INDEX
     for i in range(len(source_csv)):
         if source_csv[i][0] == last_tweet_id:
-            source_index = i
+            source_index = i+1
             break
     target_file.close()
     target_file = open(TARGETPATH, 'a', newline='', encoding='utf-8')
     target_csv = csv.DictWriter(target_file, FIELDS)
 
 # DATA EXTRACTION
-twitter_url = "https://twitter.com/xxx/status/"
+twitter_url = "https://twitter.com/"
 tweet_hits = 0
 while source_index < len(source_csv):
-    # DELAY TO PREVENT IP BLACKLISTING
+    # PREVENT IP BLACKLISTING
     time.sleep(1)
+    random_username = ''.join(random.choices(string.ascii_lowercase, k=random.randint(3,5)))+'/status/'
 
     tweet_id = source_csv[source_index][0]
     classification = source_csv[source_index][1]
 
     # GET WEBPAGE AND PARSE TITLE AND TIMESTAMP
     try:
-        response = requests.get(twitter_url+tweet_id)
+        response = requests.get(twitter_url+random_username+tweet_id)
     except:
         continue
     if response.status_code != 200:
-        print("*** TWEET NOT FOUND = " + tweet_id + " ***")
+        print("*** TWEET NOT FOUND. STATUS != 200 = " + tweet_id + " ***")
         source_index += 1
         continue
     soup = BeautifulSoup(response.text, 'lxml')
-    title = soup.find("title").text
-    timestamp = soup.find("span", {'data-time':True})['data-time']
+    title = soup.find("title")
+    timestamp = soup.find("span", {'data-time':True})
+    if not (timestamp and title):
+        print("*** TWEET NOT FOUND. NO TIMESTAMP OR TITLE = " + tweet_id + " ***")
+        source_index += 1
+        continue
+    title = title.text
+    timestamp = timestamp['data-time']
 
     # PARSE TWEET AND USERNAME
     p = re.compile(r'(.*) on Twitter: "(.*)"')
     p = p.match(title)
     if not p:
-        print("*** TWEET NOT FOUND = " + tweet_id + " ***")
+        print("*** TWEET NOT FOUND. UNABLE TO PARSE = " + tweet_id + " ***")
         source_index += 1
         continue
     username = p.group(1)
