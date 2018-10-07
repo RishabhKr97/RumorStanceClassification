@@ -12,8 +12,8 @@ import time
 # CHANGE ONLY SOURCE FILE NAME
 SOURCEFILE = 'cell-ids.txt'
 
-SOURCEPATH = 'Data/' + SOURCEFILE
-TARGETPATH = 'Data/' + SOURCEFILE[:-3] + 'csv'
+SOURCEPATH = '../Data/' + SOURCEFILE
+TARGETPATH = '../Data/' + SOURCEFILE[:-3] + 'csv'
 FIELDS = ['tweet_id', 'username', 'timestamp', 'tweet', 'classification']
 
 # OPEN SOURCE FILE AND TARGET FILE

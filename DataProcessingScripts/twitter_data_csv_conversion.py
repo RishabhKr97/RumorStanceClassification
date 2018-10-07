@@ -6,8 +6,8 @@ import csv
 # CHANGE ONLY SOURCEFILE
 SOURCEFILE = 'palin.txt'
 
-SOURCEPATH = 'Data/' + SOURCEFILE
-TARGETPATH = 'Data/' + SOURCEFILE[:-3] + 'csv'
+SOURCEPATH = '../Data/' + SOURCEFILE
+TARGETPATH = '../Data/' + SOURCEFILE[:-3] + 'csv'
 FIELDS = ['tweet_id', 'username', 'timestamp', 'tweet', 'classification']
 
 # OPEN SOURCE FILE AND TARGET FILE
@@ -19,6 +19,7 @@ source_file.close()
 target_file = open(TARGETPATH, 'w', newline='', encoding='utf-8')
 target_csv = csv.DictWriter(target_file, FIELDS)
 target_csv.writeheader()
+
 
 # CONSTRUCT OBJECT AND SAVE TO CSV
 while source_index < len(source_csv):

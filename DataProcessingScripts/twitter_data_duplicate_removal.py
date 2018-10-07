@@ -4,10 +4,9 @@ import csv
 # CHANGE ONLY SOURCEFILE
 SOURCEFILE = 'airfrance.csv'
 
-SOURCEPATH = 'Data/' + SOURCEFILE
-TARGETPATH = 'Data/' + SOURCEFILE[:-3] + 'csv'
-# FIELDS = ['username', 'timestamp', 'tweet', 'presenceOfMention', 'presenceOfUrl', 'classification']
-FIELDS = ['tweet', 'presenceOfMention', 'presenceOfUrl', 'classification']
+SOURCEPATH = '../Data/' + SOURCEFILE
+TARGETPATH = '../Data/' + SOURCEFILE[:-3] + 'csv'
+FIELDS = ['tweet', 'number_of_mentions', 'number_of_urls', 'classification']
 
 # OPEN SOURCE FILE AND TARGET FILE
 source_file = open(SOURCEPATH, 'r', newline='', encoding='utf-8', errors='ignore')
@@ -25,12 +24,10 @@ unique_tweets = set()
 while source_index < len(source_csv):
     if source_csv[source_index][2] not in unique_tweets:
         obj = {}
-        # obj['username'] = source_csv[source_index][0]
-        # obj['timestamp'] = source_csv[source_index][1]
-        obj['tweet'] = source_csv[source_index][2]
+        obj['tweet'] = source_csv[source_index][0]
+        obj['number_of_mentions'] = source_csv[source_index][1]
+        obj['number_of_urls'] = source_csv[source_index][2]
         obj['classification'] = source_csv[source_index][3]
-        obj['presenceOfMention'] = source_csv[source_index][4]
-        obj['presenceOfUrl'] = source_csv[source_index][5]
         target_csv.writerow(obj)
         unique_tweets.add(obj['tweet'])
         total += 1

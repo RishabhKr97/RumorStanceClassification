@@ -13,7 +13,6 @@ import re
 '''
 
 FILES = ['airfrance', 'cell', 'michelle', 'obama', 'palin']
-FIELDS = ['tweet', 'presenceOfMention', 'presenceOfUrl', 'classification']
 COLORS = itertools.cycle(['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple', 'tab:brown', 'tab:pink', 'tab:gray', 'tab:olive', 'tab:cyan'])
 CLASSIFICATION = ['Support', 'Deny', 'Query', 'Comment']
 
@@ -39,7 +38,7 @@ def main():
 def histogram():
     overall_numbers = [[] for _ in range(4)]
     for file_name in FILES:
-        source_path = 'Data/' + file_name + '.csv'
+        source_path = '../Data/' + file_name + '.csv'
         source_file = open(source_path, 'r', newline='', encoding='utf-8')
         source_csv = csv.reader(source_file, delimiter=',')
         # SKIP HEADERS
@@ -72,7 +71,7 @@ def histogram():
 def bar_graph():
     overall_numbers = [0]*4
     for file_name in FILES:
-        source_path = 'Data/' + file_name + '.csv'
+        source_path = '../Data/' + file_name + '.csv'
         source_file = open(source_path, 'r', newline='', encoding='utf-8')
         source_csv = csv.reader(source_file, delimiter=',')
         # SKIP HEADERS
