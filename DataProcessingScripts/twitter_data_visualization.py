@@ -21,6 +21,7 @@ def main():
     1) ENTER 1 FOR HISTOGRAM OF WORD COUNT IN TWEET FOR EACH CLASSIFICATION.
     2) ENTER 2 FOR BAR GRAPH OF CLASSIFICATION VS NUMBER OF TWEETS.
     3) ENTER 3 FOR BOTH.
+    4) ENTER 4 FOR OVERALL STATS ONLY.
     """))
 
     if choice == 1:
@@ -30,12 +31,15 @@ def main():
     elif choice == 3:
         histogram()
         bar_graph()
+    elif choice == 4:
+        histogram(overall_only = True)
+        bar_graph(overall_only = True)
     else:
         print("WRONG CHOICE!!")
         exit()
 
 # HISTOGRAM OF TWEET LENGTH FOR EACH CLASSIFICATION IN EANCH FILE AND OVERALL DATASET
-def histogram():
+def histogram(overall_only = False):
     overall_numbers = [[] for _ in range(4)]
     for file_name in FILES:
         source_path = '../Data/' + file_name + '.csv'
@@ -50,12 +54,13 @@ def histogram():
 
         for i in range(4):
             overall_numbers[i] += numbers[i]
-            plt.hist(numbers[i], bins=np.arange(0,31,5), color=next(COLORS), label=CLASSIFICATION[i], alpha=0.5)
-            plt.legend(loc='upper left')
-            plt.title(file_name)
-            plt.xlabel("tweet length")
-            plt.ylabel("number of tweets")
-            plt.show()
+            if not overall_only:
+                plt.hist(numbers[i], bins=np.arange(0,31,5), color=next(COLORS), label=CLASSIFICATION[i], alpha=0.5)
+                plt.legend(loc='upper left')
+                plt.title(file_name)
+                plt.xlabel("tweet length")
+                plt.ylabel("number of tweets")
+                plt.show()
 
         source_file.close()
 
@@ -68,7 +73,7 @@ def histogram():
         plt.show()
 
 # BAR GRAPH BETWEEN CLASSIFICATION AND NUMBER OF TWEETS IN EACH FILE AND OVERALL DATASET
-def bar_graph():
+def bar_graph(overall_only = False):
     overall_numbers = [0]*4
     for file_name in FILES:
         source_path = '../Data/' + file_name + '.csv'
@@ -82,12 +87,13 @@ def bar_graph():
             numbers[int(tweet[3])-1] += 1
         for j in range(4):
             overall_numbers[j] += numbers[j]
-        plt.bar(np.arange(4), numbers)
-        plt.title(file_name)
-        plt.xlabel("classification")
-        plt.ylabel("number of tweets")
-        plt.xticks(np.arange(4), CLASSIFICATION, rotation=30)
-        plt.show()
+        if not overall_only:
+            plt.bar(np.arange(4), numbers)
+            plt.title(file_name)
+            plt.xlabel("classification")
+            plt.ylabel("number of tweets")
+            plt.xticks(np.arange(4), CLASSIFICATION, rotation=30)
+            plt.show()
 
         source_file.close()
 
