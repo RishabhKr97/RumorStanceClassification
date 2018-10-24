@@ -7,21 +7,26 @@
     6) Remove "RT" and "via" from tweets
     7) Remove urls of http://, https://, www and .com format from tweets (some url anomalies were manually removed)
     8) Remove mentions starting from @
-    9) Remove :, (, ), [, ] and |
-    10) Remove extra spaces
-    11) Remove duplicate tweets (separate script)
+    9) Remove :, (, ), [, ], | and -
+    10) Replace # with space
+    11) Add number_of_question_marks and number_of_exclaimation_marks column
+    12) Remove extra spaces
+    13) Remove duplicate tweets (separate script)
 """
 
 import csv
 import re
 
 FILES = ['airfrance', 'cell', 'michelle', 'obama', 'palin']
-FIELDS = ['tweet', 'number_of_mentions', 'number_of_urls', 'classification']
+FIELDS = ['tweet', 'number_of_mentions', 'number_of_urls', 'number_of_question_marks', 'number_of_exclaimation_marks', 'classification']
 REG_MENTION = re.compile(r'@\w*')
 REG_URL = re.compile(r'https?://.*?(?:$| )|www\.[\w-]+\.\w+.*?(?:$| )|[\w-]*\.com.*?(?:$| )', re.IGNORECASE)
 REG_RT_AND_VIA = re.compile(r'\bRT\b|\bvia\b', re.IGNORECASE)
-REG_EXTRA_CHARS = re.compile(r'\(|\)|:|\[|\]|\|')
+REG_EXTRA_CHARS = re.compile(r'\(|\)|:|\[|\]|\||-')
 REG_EXTRA_SPACES = re.compile(r'[ ]{2,}')
+REG_HASH = re.compile(r'#')
+REG_QUESTION = re.compile(r'\?')
+REG_EXCLAIMATION = re.compile(r'!')
 
 # TASKS 2-10
 for file_name in FILES:
@@ -46,12 +51,15 @@ for file_name in FILES:
         obj['tweet'] = row[3]
         obj['number_of_mentions'] = len(REG_MENTION.findall(obj['tweet']))
         obj['number_of_urls'] = len(REG_URL.findall(obj['tweet']))
+        obj['number_of_question_marks'] = len(REG_QUESTION.findall(obj['tweet']))
+        obj['number_of_exclaimation_marks'] = len(REG_EXCLAIMATION.findall(obj['tweet']))
         obj['classification'] = int(row[4])%10
 
         obj['tweet'] = re.sub(REG_MENTION, ' ', obj['tweet'])
         obj['tweet'] = re.sub(REG_URL, ' ', obj['tweet'])
         obj['tweet'] = re.sub(REG_RT_AND_VIA, ' ', obj['tweet'])
         obj['tweet'] = re.sub(REG_EXTRA_CHARS, ' ', obj['tweet'])
+        obj['tweet'] = re.sub(REG_HASH, ' ', obj['tweet'])
         obj['tweet'] = re.sub(REG_EXTRA_SPACES, '', obj['tweet'])
 
         count += 1

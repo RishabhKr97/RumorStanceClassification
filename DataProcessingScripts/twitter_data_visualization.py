@@ -50,7 +50,7 @@ def histogram(overall_only = False):
 
         numbers = [[] for _ in range(4)]
         for tweet in source_csv:
-            numbers[int(tweet[3])-1].append(len(re.findall(r'\w+', tweet[0])))
+            numbers[int(tweet[5])-1].append(len(re.findall(r'\w+', tweet[0])))
 
         for i in range(4):
             overall_numbers[i] += numbers[i]
@@ -84,7 +84,7 @@ def bar_graph(overall_only = False):
 
         numbers = [0]*4
         for tweet in source_csv:
-            numbers[int(tweet[3])-1] += 1
+            numbers[int(tweet[5])-1] += 1
         for j in range(4):
             overall_numbers[j] += numbers[j]
         if not overall_only:

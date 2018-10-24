@@ -2,7 +2,7 @@
 import csv
 
 FILES = ['airfrance', 'cell', 'michelle', 'obama', 'palin']
-FIELDS = ['tweet', 'number_of_mentions', 'number_of_urls', 'classification']
+FIELDS = ['tweet', 'number_of_mentions', 'number_of_urls', 'number_of_question_marks', 'number_of_exclaimation_marks', 'classification']
 
 for file_name in FILES:
     # OPEN SOURCE FILE AND TARGET FILE
@@ -28,7 +28,9 @@ for file_name in FILES:
             obj['tweet'] = tweet[0]
             obj['number_of_mentions'] = tweet[1]
             obj['number_of_urls'] = tweet[2]
-            obj['classification'] = tweet[3]
+            obj['number_of_question_marks'] = tweet[3]
+            obj['number_of_exclaimation_marks'] = tweet[4]
+            obj['classification'] = tweet[5]
             target_csv.writerow(obj)
             unique_tweets.add(obj['tweet'])
             count += 1
