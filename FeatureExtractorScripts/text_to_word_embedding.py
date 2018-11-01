@@ -9,9 +9,9 @@ from gensim.scripts.glove2word2vec import glove2word2vec
 from keras.preprocessing.sequence import pad_sequences
 from keras.preprocessing.text import Tokenizer
 
-EMBEDDING_NAME = 'GoogleNews-vectors-negative300.bin'
+EMBEDDING_NAME = 'word2vec_twitter_model.bin'
 EMBEDDING_PATH = '../WordEmbedding/' + EMBEDDING_NAME
-EMBEDDING_OUTPUT_DIMENSIONS = 300
+EMBEDDING_OUTPUT_DIMENSIONS = 400
 IS_BINARY_FILE = True
 IS_WORD2VEC_FORMAT = True
 
@@ -70,7 +70,7 @@ def get_fitted_tokenizer():
         print(encoded_tweets[i])
     print("Last 10 paded encodings...")
     for i in range(10):
-        print(encoded_tweets[-1*i])
+        print(encoded_tweets[-1*(i+1)])
     feature_vectors = pd.DataFrame(encoded_tweets)
     feature_vectors = pd.concat([feature_vectors, source_file.iloc[:,1:10]], axis=1)
     print("Feature vectors...")
@@ -83,7 +83,7 @@ def get_fitted_tokenizer():
 def get_filtered_word_embeddings(fitted_tokenizer):
     # RETURNS FILTERD WORD EMBEDDING MATRIX ACCORDING TO FITTED VOCABULARY
 
-    model = KeyedVectors.load_word2vec_format(EMBEDDING_PATH, binary=IS_BINARY_FILE)
+    model = KeyedVectors.load_word2vec_format(EMBEDDING_PATH, binary=IS_BINARY_FILE, unicode_errors='ignore')
     print(EMBEDDING_NAME + " successfully loaded with vocabulary size = {}".format(len(model.wv.vocab)))
 
     embedding_matrix = np.zeros((len(fitted_tokenizer.word_index) + 1, EMBEDDING_OUTPUT_DIMENSIONS))
