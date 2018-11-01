@@ -10,9 +10,10 @@ from matplotlib.ticker import FuncFormatter
 
 '''
     VISUALIZE USING
-    1) Histogram of number of words for each classification
+    1) Histogram of number of words in tweet for each classification and overall dataset
     2) Bar graph between classification and number of tweets
-    3) Words with highest frequency
+    3) Pie chart of words with highest frequency
+    4) Histogram of tweet word-number features
 '''
 
 FILES = ['airfrance', 'cell', 'michelle', 'obama', 'palin']
@@ -21,7 +22,7 @@ CLASSIFICATION = ['Support', 'Deny', 'Query', 'Comment']
 
 def main():
     choice = int(input("""
-    1) ENTER 1 FOR HISTOGRAM OF WORD COUNT IN TWEET FOR EACH CLASSIFICATION.
+    1) ENTER 1 FOR HISTOGRAM OF WORD COUNT IN TWEET FOR EACH CLASSIFICATION AND OVERALL DATASET.
     2) ENTER 2 FOR BAR GRAPH OF CLASSIFICATION VS NUMBER OF TWEETS.
     3) ENTER 3 FOR PIE CHART OF HIGHEST WORD FREQUENCY FOR EACH CLASSIFICATION.
     4) ENTER 4 FOR HISTOGRAM OF TWEET WORD-NUMBER FEATURES FOR EACH CLASSIFICATION.
@@ -68,7 +69,7 @@ def histogram(overall_only=False):
         for i in range(4):
             overall_numbers[i] += numbers[i]
             if not overall_only:
-                plt.hist(numbers[i], bins=np.arange(0,31,5), color=next(COLORS), label=CLASSIFICATION[i], alpha=0.5, density=True)
+                plt.hist(numbers[i], bins=np.arange(0,36,5), color=next(COLORS), label=CLASSIFICATION[i], alpha=0.5, density=True)
                 plt.legend(loc='upper left')
                 plt.title(file_name)
                 plt.xlabel("tweet length")
@@ -78,14 +79,23 @@ def histogram(overall_only=False):
 
         source_file.close()
 
+    overall_numbers_without_classification = []
     for i in range(4):
-        plt.hist(overall_numbers[i], bins=np.arange(0,31,5), color=next(COLORS), label=CLASSIFICATION[i], alpha=0.5, density=True)
+        overall_numbers_without_classification += overall_numbers[i]
+        plt.hist(overall_numbers[i], bins=np.arange(0,36,5), color=next(COLORS), label=CLASSIFICATION[i], alpha=0.5, density=True)
         plt.legend(loc='upper left')
         plt.title("Overall Dataset")
         plt.xlabel("tweet length")
         plt.ylabel("percentage of tweets (total = {})".format(len(overall_numbers[i])))
         plt.gca().yaxis.set_major_formatter(formatter)
         plt.show()
+
+    plt.hist(overall_numbers_without_classification, bins=np.arange(0,36,5), color=next(COLORS), alpha=0.5, density=True)
+    plt.title("Overall Dataset")
+    plt.xlabel("tweet length")
+    plt.ylabel("percentage of tweets (total = {})".format(len(overall_numbers_without_classification)))
+    plt.gca().yaxis.set_major_formatter(formatter)
+    plt.show()
 
 # BAR GRAPH BETWEEN CLASSIFICATION AND NUMBER OF TWEETS IN EACH FILE AND OVERALL DATASET
 def bar_graph(overall_only=False):
