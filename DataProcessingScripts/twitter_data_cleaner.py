@@ -10,8 +10,10 @@
     9) Remove :, (, ), [, ], | and -
     10) Replace # with space
     11) Add number_of_question_marks and number_of_exclaimation_marks column
-    12) Remove extra spaces
-    13) Remove duplicate tweets (separate script)
+    12) Add spaces before and after remaining punctuation marks
+    13) Remove extra spaces
+    14) Remove ‘ ’ “ ” and some non utf8 characters (manually)
+    14) Remove duplicate tweets (separate script)
 """
 
 import csv
@@ -27,8 +29,9 @@ REG_EXTRA_SPACES = re.compile(r'[ ]{2,}')
 REG_HASH = re.compile(r'#')
 REG_QUESTION = re.compile(r'\?')
 REG_EXCLAIMATION = re.compile(r'!')
+REG_PUNCTUATION = re.compile(r'(["#$!?%&()*+,-./:;<=>@[\\\]^_`{|}~])')
 
-# TASKS 2-10
+# TASKS 2-13
 for file_name in FILES:
     source_path = '../Data/' + file_name + '.csv'
     target_path = '../Data/' + file_name + '.csv'
@@ -60,7 +63,8 @@ for file_name in FILES:
         obj['tweet'] = re.sub(REG_RT_AND_VIA, ' ', obj['tweet'])
         obj['tweet'] = re.sub(REG_EXTRA_CHARS, ' ', obj['tweet'])
         obj['tweet'] = re.sub(REG_HASH, ' ', obj['tweet'])
-        obj['tweet'] = re.sub(REG_EXTRA_SPACES, '', obj['tweet'])
+        obj['tweet'] = re.sub(REG_PUNCTUATION, ' \\1 ', obj['tweet'])
+        obj['tweet'] = re.sub(REG_EXTRA_SPACES, ' ', obj['tweet'])
 
         count += 1
         target_csv.writerow(obj)
