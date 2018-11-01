@@ -7,14 +7,14 @@ from gensim.models import KeyedVectors
 from gensim.scripts.glove2word2vec import glove2word2vec
 from keras.preprocessing.text import Tokenizer
 
-EMBEDDING_NAME = 'GoogleNews-vectors-negative300.bin'
+EMBEDDING_NAME = 'glove.840B.300d.txt.word2vec'
 EMBEDDING_PATH = '../WordEmbedding/' + EMBEDDING_NAME
 EMBEDDING_OUTPUT_DIMENSIONS = 300
-IS_BINARY_FILE = True
+IS_BINARY_FILE = False
 IS_WORD2VEC_FORMAT = True
 
-# PARAMETERS FOR VOCABULARY AND FEATURE VECTOR CREATION
-CONVERT_TO_LOWER_CASE = True
+# PARAMETERS FOR VOCABULARY AND ENCODED VECTOR CREATION
+CONVERT_TO_LOWER_CASE = False
 MAX_VOCAB_SIZE = None
 CHARACTER_FILTERS = '"#$%&()*+,-./:;<=>@[\\]^_`{|}~'
 
