@@ -74,12 +74,12 @@ def get_fitted_tokenizer():
     print("Last 10 paded encodings...")
     for i in range(10):
         print(encoded_tweets[-1*(i+1)])
-    feature_vectors = pd.DataFrame(encoded_tweets)
-    feature_vectors = pd.concat([feature_vectors, source_file.iloc[:,1:10]], axis=1)
-    print("Feature vectors...")
-    print(feature_vectors)
-    feature_vectors.to_csv(ENCODED_VECTORS_TARGET_PATH)
-    print("Feature vectors saved to file")
+    encoded_vectors = pd.DataFrame(encoded_tweets)
+    encoded_vectors = pd.concat([encoded_vectors, source_file.iloc[:,1:10]], axis=1)
+    print("Encoded vectors...")
+    print(encoded_vectors)
+    encoded_vectors.to_csv(ENCODED_VECTORS_TARGET_PATH)
+    print("Encoded vectors saved to file")
 
     # SAVE TOKENIZER
     with open(TOKENIZER_TARGET_PATH, 'wb') as handle:
