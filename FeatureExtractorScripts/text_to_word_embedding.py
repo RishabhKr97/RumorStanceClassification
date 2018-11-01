@@ -1,25 +1,27 @@
 # CHANGE TWEET TEXT TO ENCODED FORMAT
 # SAVE WORD EMBEDDING MATRIX
+# SAVE TOKENIZER
 
 import gc
 import numpy as np
 import pandas as pd
+import pickle
 from gensim.models import KeyedVectors
 from gensim.scripts.glove2word2vec import glove2word2vec
 from keras.preprocessing.sequence import pad_sequences
 from keras.preprocessing.text import Tokenizer
 
-EMBEDDING_NAME = 'word2vec_twitter_model.bin'
+EMBEDDING_NAME = 'glove.840B.300d.txt.word2vec'
 EMBEDDING_PATH = '../WordEmbedding/' + EMBEDDING_NAME
-EMBEDDING_OUTPUT_DIMENSIONS = 400
-IS_BINARY_FILE = True
+EMBEDDING_OUTPUT_DIMENSIONS = 300
+IS_BINARY_FILE = False
 IS_WORD2VEC_FORMAT = True
 
-# PARAMETERS FOR VOCABULARY AND FEATURE VECTOR CREATION
-CONVERT_TO_LOWER_CASE = True
+# PARAMETERS FOR VOCABULARY AND ENCODED VECTOR CREATION
+CONVERT_TO_LOWER_CASE = False
 MAX_INPUT_VECTOR_DIMENSIONS = None
 MAX_VOCAB_SIZE = None
-CHARACTER_FILTERS = '"#$%&()*+,-./:;<=>@[\]^_`{|}~'
+CHARACTER_FILTERS = '"#$%&()*+,-./:;<=>@[\\]^_`{|}~'
 
 if not IS_WORD2VEC_FORMAT:
     glove2word2vec(EMBEDDING_PATH, EMBEDDING_PATH+".word2vec")
@@ -27,8 +29,9 @@ if not IS_WORD2VEC_FORMAT:
     EMBEDDING_PATH += ".word2vec"
 
 FILE_PATH = '../Data/consolidated_data.csv'
-FEATURE_VECTORS_TARGET_PATH = '../Data/feature_vectors.csv'
+ENCODED_VECTORS_TARGET_PATH = '../Data/encoded_vectors.csv'
 FILTERED_EMBEDDING_TARGET_PATH = '../Data/FILTERED_EMBEDDING_MATRIX_'+EMBEDDING_NAME+'.npy'
+TOKENIZER_TARGET_PATH = '../Data/tokenizer.pickle'
 
 def main():
     fitted_tokenizer = get_fitted_tokenizer()
@@ -61,7 +64,7 @@ def get_fitted_tokenizer():
         print(encoded_tweets[i])
     print("Last 10 encodings...")
     for i in range(10):
-        print(encoded_tweets[-1*i])
+        print(encoded_tweets[-1*(i+1)])
     print("Padding tweets to length {}".format(MAX_INPUT_VECTOR_DIMENSIONS))
     # PAD THE ENCODINGS
     encoded_tweets = pad_sequences(encoded_tweets, maxlen=MAX_INPUT_VECTOR_DIMENSIONS, padding='post', truncating='post')
@@ -71,12 +74,17 @@ def get_fitted_tokenizer():
     print("Last 10 paded encodings...")
     for i in range(10):
         print(encoded_tweets[-1*(i+1)])
-    feature_vectors = pd.DataFrame(encoded_tweets)
-    feature_vectors = pd.concat([feature_vectors, source_file.iloc[:,1:10]], axis=1)
-    print("Feature vectors...")
-    print(feature_vectors)
-    feature_vectors.to_csv(FEATURE_VECTORS_TARGET_PATH)
-    print("Feature vectors saved to file")
+    encoded_vectors = pd.DataFrame(encoded_tweets)
+    encoded_vectors = pd.concat([encoded_vectors, source_file.iloc[:,1:10]], axis=1)
+    print("Encoded vectors...")
+    print(encoded_vectors)
+    encoded_vectors.to_csv(ENCODED_VECTORS_TARGET_PATH)
+    print("Encoded vectors saved to file")
+
+    # SAVE TOKENIZER
+    with open(TOKENIZER_TARGET_PATH, 'wb') as handle:
+        pickle.dump(t, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    print("Tokenizer saved successfully")
 
     return t
 
