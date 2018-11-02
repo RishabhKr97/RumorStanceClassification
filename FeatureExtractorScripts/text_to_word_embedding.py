@@ -21,7 +21,7 @@ IS_WORD2VEC_FORMAT = True
 CONVERT_TO_LOWER_CASE = False
 MAX_INPUT_VECTOR_DIMENSIONS = None
 MAX_VOCAB_SIZE = None
-CHARACTER_FILTERS = '"#$%&()*+,-./:;<=>@[\\]^_`{|}~'
+CHARACTER_FILTERS = '"\'#$%&()*+,-./:;<=>@[\\]^_`{|}~'
 
 if not IS_WORD2VEC_FORMAT:
     glove2word2vec(EMBEDDING_PATH, EMBEDDING_PATH+".word2vec")
@@ -68,6 +68,7 @@ def get_fitted_tokenizer():
     print("Padding tweets to length {}".format(MAX_INPUT_VECTOR_DIMENSIONS))
     # PAD THE ENCODINGS
     encoded_tweets = pad_sequences(encoded_tweets, maxlen=MAX_INPUT_VECTOR_DIMENSIONS, padding='post', truncating='post')
+    print("Length of each tweet = {}".format(len(encoded_tweets[0])))
     print("Top 10 paded encodings...")
     for i in range(10):
         print(encoded_tweets[i])
@@ -75,7 +76,7 @@ def get_fitted_tokenizer():
     for i in range(10):
         print(encoded_tweets[-1*(i+1)])
     encoded_vectors = pd.DataFrame(encoded_tweets)
-    encoded_vectors = pd.concat([encoded_vectors, source_file.iloc[:,1:10]], axis=1)
+    encoded_vectors = pd.concat([encoded_vectors, source_file.iloc[:,1:9]], axis=1)
     print("Encoded vectors...")
     print(encoded_vectors)
     encoded_vectors.to_csv(ENCODED_VECTORS_TARGET_PATH)

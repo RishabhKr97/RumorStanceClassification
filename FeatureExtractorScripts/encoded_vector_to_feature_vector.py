@@ -32,7 +32,7 @@ def construct_feature_vectors():
 
     # MAKE A KERAS EMBEDDING LAYER MODEL FOR ENCODING TO FEATURE VECTOR CONVERSION
     model = Sequential()
-    e = Embedding(len(tokenizer.word_index)+1, 300, weights=[embedding_matrix], input_length=34, trainable=False)
+    e = Embedding(len(tokenizer.word_index)+1, 300, weights=[embedding_matrix], input_length=36, trainable=False)
     model.add(e)
     model.add(Flatten())
     # COMPILE THE MODEL
@@ -40,10 +40,10 @@ def construct_feature_vectors():
     # SUMMARIZE THE MODEL
     model.summary()
 
-    encoded_tweets = encoded_vectors.iloc[:,:34]
+    encoded_tweets = encoded_vectors.iloc[:,:36]
     embedded_tweets = model.predict(encoded_tweets)
     embedded_tweets = pd.DataFrame(embedded_tweets)
-    feature_vectors = pd.concat([embedded_tweets, encoded_vectors.iloc[:,34:]], axis=1)
+    feature_vectors = pd.concat([embedded_tweets, encoded_vectors.iloc[:,36:]], axis=1)
     print("Feature vectors constructed...")
     print(feature_vectors)
     feature_vectors.to_csv(FEATURE_VECTOR_TARGET_PATH)
