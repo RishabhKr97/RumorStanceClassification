@@ -4,17 +4,17 @@ import pandas as pd
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
-DESIRED_VARIANCE = 0.995
+DESIRED_VARIANCE = 0.99
 
 FEATURE_VECTORS_PATH = '../Data/feature_vectors.csv'
 
 feature_vectors = pd.read_csv(FEATURE_VECTORS_PATH, index_col=0)
 
 # SEPARATING FEATURES AND CLASS
-x = feature_vectors.iloc[:,:10208].values
+x = feature_vectors.iloc[:,:10807].values
 print(x)
 print(x.shape)
-y = feature_vectors.iloc[:,10208]
+y = feature_vectors.iloc[:,10807]
 
 # STANDARDIZE THE FEATURES
 x = StandardScaler().fit_transform(x)

@@ -16,7 +16,7 @@ IS_WORD2VEC_FORMAT = True
 # PARAMETERS FOR VOCABULARY AND ENCODED VECTOR CREATION
 CONVERT_TO_LOWER_CASE = False
 MAX_VOCAB_SIZE = None
-CHARACTER_FILTERS = '"#$%&()*+,-./:;<=>@[\\]^_`{|}~'
+CHARACTER_FILTERS = '"\'#$%&()*+,-./:;<=>@[\\]^_`{|}~'
 
 if not IS_WORD2VEC_FORMAT:
     glove2word2vec(EMBEDDING_PATH, EMBEDDING_PATH+".word2vec")

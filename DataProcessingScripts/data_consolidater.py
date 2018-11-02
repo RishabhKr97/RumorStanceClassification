@@ -3,7 +3,7 @@
 import csv
 
 FILES = ['airfrance', 'cell', 'michelle', 'obama', 'palin']
-FIELDS = ['tweet', 'number_of_mentions', 'number_of_urls', 'number_of_question_marks', 'number_of_exclaimation_marks', 'number_of_support_words', 'number_of_denial_words', 'number_of_query_words', 'number_of_negation_words', 'classification']
+FIELDS = ['tweet', 'number_of_mentions', 'number_of_urls', 'number_of_question_marks', 'number_of_exclaimation_marks', 'number_of_support_words', 'number_of_denial_words', 'number_of_query_words', 'classification']
 TARGET_PATH = '../Data/consolidated_data.csv'
 
 # OPEN TARGET FILE
@@ -33,8 +33,7 @@ for file_name in FILES:
         obj['number_of_support_words'] = tweet[5]
         obj['number_of_denial_words'] = tweet[6]
         obj['number_of_query_words'] = tweet[7]
-        obj['number_of_negation_words'] = tweet[8]
-        obj['classification'] = tweet[9]
+        obj['classification'] = tweet[8]
         target_csv.writerow(obj)
         count += 1
 

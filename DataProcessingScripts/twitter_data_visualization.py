@@ -64,7 +64,7 @@ def histogram(overall_only=False):
 
         numbers = [[] for _ in range(4)]
         for tweet in source_csv:
-            numbers[int(tweet[9])-1].append(len(re.findall(r'\w+', tweet[0])))
+            numbers[int(tweet[8])-1].append(len(re.findall(r'\w+', tweet[0])))
 
         for i in range(4):
             overall_numbers[i] += numbers[i]
@@ -109,7 +109,7 @@ def bar_graph(overall_only=False):
 
         numbers = [0]*4
         for tweet in source_csv:
-            numbers[int(tweet[9])-1] += 1
+            numbers[int(tweet[8])-1] += 1
         for j in range(4):
             overall_numbers[j] += numbers[j]
         if not overall_only:
@@ -144,15 +144,15 @@ def word_frequency(overall_only=False):
         words = [{}, {}, {}, {}]
         for tweet in source_csv:
             for word in tweet[0].split():
-                if word not in words[int(tweet[9])-1]:
-                    words[int(tweet[9])-1][word] = 1
+                if word not in words[int(tweet[8])-1]:
+                    words[int(tweet[8])-1][word] = 1
                 else:
-                    words[int(tweet[9])-1][word] += 1
+                    words[int(tweet[8])-1][word] += 1
 
-                if word not in overall_words[int(tweet[9])-1]:
-                    overall_words[int(tweet[9])-1][word] = 1
+                if word not in overall_words[int(tweet[8])-1]:
+                    overall_words[int(tweet[8])-1][word] = 1
                 else:
-                    overall_words[int(tweet[9])-1][word] += 1
+                    overall_words[int(tweet[8])-1][word] += 1
 
         if not overall_only:
             for i in range(4):
@@ -189,7 +189,7 @@ def word_number_feature(overall_only=True):
         return s + '%'
     formatter = FuncFormatter(to_percent)
 
-    labels = ['Number of mentions', 'Number of urls', 'Number of question marks', 'Number of exclaimation marks', 'Number of support words', 'Number of denial words', 'Number of query words', 'Number of negation words']
+    labels = ['Number of mentions', 'Number of urls', 'Number of question marks', 'Number of exclaimation marks', 'Number of support words', 'Number of denial words', 'Number of query words']
     overall_numbers = [[[] for __ in range(4)] for _ in range(len(labels))]
     for file_name in FILES:
         source_path = '../Data/' + file_name + '.csv'
@@ -201,7 +201,7 @@ def word_number_feature(overall_only=True):
         numbers = [[[] for __ in range(4)] for _ in range(len(labels))]
         for tweet in source_csv:
             for i in range(len(labels)):
-                numbers[i][int(tweet[9])-1].append(int(tweet[i+1]))
+                numbers[i][int(tweet[8])-1].append(int(tweet[i+1]))
 
         for i in range(len(labels)):
             for j in range(4):
