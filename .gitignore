@@ -1,4 +1,6 @@
 Data/
+Logs/
+Model/
 WordEmbedding/
 .vscode
 
