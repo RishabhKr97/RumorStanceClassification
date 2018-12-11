@@ -10,12 +10,13 @@ from keras.callbacks import TensorBoard
 from keras.layers import Dense, Dropout
 from keras.models import load_model
 from keras.models import Sequential
+from keras.optimizers import Adam
 from keras.utils.np_utils import to_categorical
 
 LOAD_PREV = False
 IS_PCA = False
 NAME = ''
-VALIDATION_SPLIT = 0.3
+VALIDATION_SPLIT = 0.2
 EPOCHS = 300
 
 if IS_PCA:
@@ -43,10 +44,12 @@ def create_model():
 
     model = Sequential()
     model.add(Dense(100, input_dim=INPUT_DIM, activation='relu'))
-    model.add(Dropout(0.4))
+    model.add(Dropout(0.2))
     model.add(Dense(100, activation='relu'))
+    model.add(Dropout(0.2))
     model.add(Dense(4, activation='softmax'))
-    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+    adam = Adam()
+    model.compile(loss='categorical_crossentropy', optimizer=adam, metrics=['accuracy'])
     return model
 
 def get_model():

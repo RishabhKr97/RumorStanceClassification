@@ -1,0 +1,12 @@
+              precision    recall  f1-score   support
+
+     Support       0.77      0.87      0.82       211
+        Deny       0.87      0.80      0.83       173
+       Query       0.66      0.64      0.65        42
+     Comment       0.67      0.35      0.46        23
+
+   micro avg       0.79      0.79      0.79       449
+   macro avg       0.74      0.66      0.69       449
+weighted avg       0.79      0.79      0.79       449
+
+ACCURACY = 79.28730512249443%
