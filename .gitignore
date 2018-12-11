@@ -1,6 +1,7 @@
 Data/
 Logs/
 Model/
+ModelCode/*.txt
 WordEmbedding/
 .vscode
 
