@@ -1,5 +1,0 @@
-# Support Deny Query Comment
-183	13	12	3
-33	138	2	0
-11	3	27	1
-10	5	0	8
